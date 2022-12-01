@@ -1,5 +1,8 @@
-import { useImmer } from "use-immer";
+import { useState } from "react";
 import useCards from "../hooks/useDeck";
+
+const CARD_STATUS = {};
+
 const Deck = [
   "Island",
   "Island",
@@ -15,6 +18,7 @@ const Deck = [
   "Mutavault",
   "Mutavault",
   "Mutavault",
+  "Strefan, Maurer Progenitor",
 ];
 
 class Player {
@@ -22,50 +26,29 @@ class Player {
     this.local = local;
     this.name = name;
     this.health = 20;
+
     this.library = [];
     this.hand = [];
-  }
-}
-
-class Card {
-  constructor({
-    id,
-    name,
-    lang,
-    uri,
-    image_uris,
-    mana_cost,
-    cmc,
-    type_line,
-    colors,
-  }) {
-    this.id = id;
-    this.name = name;
-    this.lang = lang;
-    this.uri = uri;
-    this.image_uris = image_uris;
-    this.mana_cost = mana_cost;
-    this.cmc = cmc;
-    this.type_line = type_line;
-    this.colors = colors;
+    this.battlefield = [];
   }
 }
 
 function useMagicEngine() {
-  const [state, setState] = useImmer({
+  const [state, setState] = useState({
     player: new Player({ local: true, name: "player" }),
     opponent: new Player({ local: false, name: "opponent" }),
   });
 
   function onDataFetched(cards) {
-    setState((draft) => {
-      draft.player.library = cards;
-    });
+    setState((prev) => ({
+      ...prev,
+      player: { ...prev.player, library: cards },
+    }));
   }
 
   const { isLoading, isError } = useCards(onDataFetched, Deck);
 
-  return { state, isLoading, isError };
+  return { state, setState, isLoading, isError };
 }
 
-export { useMagicEngine };
+export { useMagicEngine, CARD_STATUS };
