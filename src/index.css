@@ -1,80 +1,107 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+#root {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+li,
+ol {
+  list-style-type: none;
+  display: inline-block;
+}
+
 .card {
-    display: inline-block;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    transition: transform 1s;
-    transform-style: preserve-3d;
-    height: 100%;
-    width: 100%;
+  background-color: transparent;
+  perspective: 1000px;
+
+  /* normal-size: 488 × 680 */
+  width: 163px;
+  height: 227px;
+
+  touch-action: none;
 }
 
-.card div {
-    position: absolute;
-    backface-visibility: hidden;
+.card .content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  transition: transform 1s;
+  transform-style: preserve-3d;
 }
 
+.card .content .front,
+.card .content .back {
+  overflow: hidden;
+  border-radius: 10px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+}
 
 .card img {
-    height: 200px;
+  height: 100%;
+  width: 100%;
+  touch-action: none;
+  user-select: none;
 }
 
-.card--front {
+.card .content .front {
+  opacity: 1;
 }
-.card--back {
-    transform: rotateY(180deg);
+
+.card .content .back {
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }
 
 .board {
-    background-color: brown;
+  background-color: brown;
 }
 
 .library {
-    border: 3px solid red;
-    border-radius: 10px;
-    position: absolute;
-    right: 0px;
-    bottom: 100px;
-    width: 163px;
-    height: 227px;
+  border: 3px solid red;
+  border-radius: 10px;
+  position: absolute;
+  right: 0px;
+  bottom: 100px;
+  width: 163px;
+  height: 227px;
 }
 
 .library .card {
-    position: absolute;
-}
-
-.library .card .content {
-    transform: rotateY(180deg);
-    transition: transform 0.5s;
-}
-
-.library .card:hover .content {
-    transform: rotateY(180deg) rotateZ(-10deg);
+  position: absolute;
 }
 
 .hand {
-    overflow: visible;
-    width: 100%;
-    height: 300px;
-    position: absolute;
-    bottom: -170px;
-    
+  overflow: visible;
+  width: 100%;
+  height: 300px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.hand > div {
+  width: 100%;
+}
+
+.hand-items .card {
+  position: absolute;
+  transform-origin: 50% 50% 0px;
+  touch-action: none;
+}
+
+.hand-items {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-}
-
-.hand>div {
-    width: 100%;
-}
-
-.hand .card {
-    display: inline-block;
-    margin-right: -80px;
-    transition: padding 0.5s;
-}
-
-.hand .card:hover {
-    padding-bottom: 100px;
 }

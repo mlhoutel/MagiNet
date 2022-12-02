@@ -1,5 +1,4 @@
 import { useState, useCallback } from "react";
-import { DragDropContext } from "react-beautiful-dnd";
 import { useMagicEngine, CARD_STATUS } from "../hooks/useMagicEngine";
 import {
   usePeerConnection,
@@ -15,7 +14,11 @@ function Board() {
   }, []);
 
   const { state: peer_state, connect, send } = usePeerConnection({ onReceive });
-  const { state: magic_state, setState: setMagicState } = useMagicEngine();
+  const {
+    state: magic_state,
+    setState: setMagicState,
+    isLoading,
+  } = useMagicEngine();
 
   const [dest_id, setDestId] = useState("");
 
@@ -23,41 +26,6 @@ function Board() {
     e.preventDefault();
     send(e.target.msg.value);
     e.target.reset();
-  }
-
-  // a little function to help us with reordering the result
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-  };
-
-  function onDragEnd(result) {
-    if (!result.destination) {
-      return; // dropped outside
-    }
-
-    const references = {
-      library: magic_state.player.library,
-      hand: magic_state.player.hand,
-      battlefield: magic_state.player.battlefield,
-    };
-
-    const source = result.source.droppableId;
-    const destination = result.destination.droppableId;
-
-    // pop from the source
-    const [removed] = references[source].splice(result.source.index, 1);
-
-    // push to the destination
-    references[destination].splice(result.destination.index, 0, removed);
-
-    setMagicState((prev) => ({
-      ...prev,
-      player: { ...prev.player, ...references },
-    }));
   }
 
   return (
@@ -89,14 +57,13 @@ function Board() {
       )}
 
       <div className="board">
-        <DragDropContext onDragEnd={onDragEnd}>
-          {magic_state.player.library && (
+        {magic_state.player.library &&
+          magic_state.player.library.length > 0 && (
             <>
-              <Library cards={magic_state.player.library} />
-              <Hand cards={magic_state.player.hand} />
+              <Library cards={[]} />
+              <Hand cards={magic_state.player.library} />
             </>
           )}
-        </DragDropContext>
       </div>
     </>
   );
