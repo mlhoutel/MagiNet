@@ -1,5 +1,5 @@
 import { Droppable } from "react-beautiful-dnd";
-import Card from "../Cards/Card";
+import DraggableCard from "../Cards/DraggableCard";
 
 function Hand({ cards }) {
   return (
@@ -12,8 +12,8 @@ function Hand({ cards }) {
             className="hand-items"
           >
             {cards.map((card, index) => (
-              <Card
-                key={card.id + "_" + index}
+              <DraggableCard
+                key={card.uuid}
                 card={card}
                 index={index}
                 style={{

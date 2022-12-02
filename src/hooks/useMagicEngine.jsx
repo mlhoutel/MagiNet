@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import useCards from "../hooks/useDeck";
 
 const CARD_STATUS = {};
@@ -40,15 +41,39 @@ function useMagicEngine() {
   });
 
   function onDataFetched(cards) {
+    const library = cards.map((card) => ({ ...card, uuid: uuidv4() }));
+
     setState((prev) => ({
       ...prev,
-      player: { ...prev.player, library: cards },
+      player: { ...prev.player, hand: library },
     }));
+  }
+
+  /**
+   * Update the player value
+   * @param {function(string)} fn
+   */
+  function setPlayer(fn) {
+    setState((prev) => {
+      const player = fn(prev.player);
+      return { ...prev, player: player };
+    });
+  }
+
+  /**
+   * Update the opponent value
+   * @param {function(string)} fn
+   */
+  function setOpponent(fn) {
+    setState((prev) => {
+      const opponent = fn(prev.opponent);
+      return { ...prev, opponent: opponent };
+    });
   }
 
   const { isLoading, isError } = useCards(onDataFetched, Deck);
 
-  return { state, setState, isLoading, isError };
+  return { state, setState, setPlayer, setOpponent, isLoading, isError };
 }
 
 export { useMagicEngine, CARD_STATUS };

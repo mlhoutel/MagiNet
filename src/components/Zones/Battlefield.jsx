@@ -1,10 +1,10 @@
 import { Droppable } from "react-beautiful-dnd";
 import DraggableCard from "../Cards/DraggableCard";
 
-function Library({ cards }) {
+function Battlefield({ cards }) {
   return (
-    <div className="library">
-      <Droppable droppableId="library" direction="vertical">
+    <div className="battlefield">
+      <Droppable droppableId="battlefield" direction="horizontal">
         {(provided, snapshot) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {cards.map((card, index) => (
@@ -18,4 +18,4 @@ function Library({ cards }) {
   );
 }
 
-export default Library;
+export default Battlefield;
