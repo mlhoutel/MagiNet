@@ -22,8 +22,6 @@ function Board() {
   const [dest_id, setDestId] = useState("");
 
   function onDragEnd(result) {
-    console.log(result);
-
     if (!result.destination) {
       return; // dropped outside
     }

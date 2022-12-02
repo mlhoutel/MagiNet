@@ -45,7 +45,7 @@ function useMagicEngine() {
 
     setState((prev) => ({
       ...prev,
-      player: { ...prev.player, hand: library },
+      player: { ...prev.player, library: library },
     }));
   }
 
