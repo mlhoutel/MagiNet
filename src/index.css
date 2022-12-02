@@ -1,64 +1,32 @@
-* {
-    padding: 0px;
-    margin: 0px;
-}
-
-#root {
-    position: relative;
-    overflow: hidden;
-    height: 100vh;
-    width: 100vw;
-}
-
-li, ol {
-    list-style-type: none;
-    display: inline-block;
-}
-
 .card {
-    background: transparent;
-    perspective: 1000px;
-
-    /* normal-size: 488 × 680 */
-    width: 163px;
-    height: 227px;
-}
-
-.card .content {
+    display: inline-block;
     position: relative;
+    height: 100%;
+    width: 100%;
     transition: transform 1s;
     transform-style: preserve-3d;
     height: 100%;
     width: 100%;
 }
 
-.card .content .front, .card .content .back {
-    overflow: hidden;
-    border-radius: 10px;
+.card div {
     position: absolute;
-    height: 100%;
-    width: 100%;
-    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    display: flex;
 }
+
 
 .card img {
-    height: 100%;
-    width: 100%;
+    height: 200px;
 }
 
-.card .content .back {
+.card--front {
+}
+.card--back {
     transform: rotateY(180deg);
 }
 
-/*
-.card:hover .content {
-    transform: rotateX(50deg) rotateZ(20deg) rotateY(210deg);
-}
-*/
-
 .board {
+    background-color: brown;
 }
 
 .library {
@@ -73,12 +41,15 @@ li, ol {
 
 .library .card {
     position: absolute;
-    transform: rotateY(0deg);
+}
+
+.library .card .content {
+    transform: rotateY(180deg);
     transition: transform 0.5s;
 }
 
-.library .card:hover {
-    transform: rotateZ(-10deg);
+.library .card:hover .content {
+    transform: rotateY(180deg) rotateZ(-10deg);
 }
 
 .hand {
@@ -92,6 +63,10 @@ li, ol {
     align-items: center;
     justify-content: center;
     white-space: nowrap;
+}
+
+.hand>div {
+    width: 100%;
 }
 
 .hand .card {
